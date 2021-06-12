@@ -1,5 +1,7 @@
 <?php
 
+// ------SIGNUP FUNCTIONS------
+
  function emptyInputSignup($name, $email, $username, $password, $passwordRepeat){
     $result;
 
@@ -93,4 +95,44 @@ function createUser($conn, $name, $email, $username, $password){
 
     header("location: ../signup.php?error=none");
     exit();
+}
+
+// ------LOGIN FUNCTIONS ------
+function emptyInputLogin($username, $password){
+    $result;
+
+    if(empty($username) || empty($password)){
+        $result = true;
+    }
+    else{
+        $result = false;
+    }
+    return $result;
+}
+
+function loginUser($conn, $username, $password){
+    $uidExists = uidExists($conn, $username, $username);
+
+    if($uidExists === false){
+        header("location: ../login.php?error=wronglogin");
+        exit();
+    }
+
+    //check submitted password against hashed password in database
+    $pwdHashed = $uidExists["usersPwd"];
+    $checkPwd = password_verify($password, $pwdHashed);
+
+    if($checkPwd === false){
+        header("location: ../login.php?error=wronglogin");
+        exit();
+    }
+    else if ($checkPwd === true){
+        session_start();
+
+        $_SESSION['userid'] = $uidExists["usersID"];
+        $_SESSION['useruid'] = $uidExists["usersUid"];
+
+        header("location: ../index.php");
+        exit();
+    }
 }

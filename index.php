@@ -3,6 +3,13 @@
 ?>
 
         <section class="index-intro">
+            <?php
+                if(isset($_SESSION["useruid"])){
+                    // Greet user on login
+                    echo "<h2><em>Hello, " . $_SESSION["useruid"] . "</em></h2>";
+                }
+            ?>
+
             <h1>Introduction</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti numquam voluptate provident in rem tempore unde corrupti quisquam est? Obcaecati deserunt explicabo cumque dolore numquam voluptatibus eligendi mollitia sed, culpa officia quae quas ratione delectus voluptates quam. Eum accusamus obcaecati corporis nisi, cumque atque eos possimus illo magni aliquid consectetur.</p>
         </section>
